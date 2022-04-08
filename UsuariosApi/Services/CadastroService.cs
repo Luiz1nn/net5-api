@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -42,8 +41,8 @@ namespace UsuariosApi.Services
 
                 return Result.Ok().WithSuccess(code);
             }
-            return Result.Fail("Falha ao cadastrar usuário");
 
+            return Result.Fail("Falha ao cadastrar usuário");
         }
 
         public Result AtivaContaUsuario(AtivaContaRequest request)

@@ -38,7 +38,7 @@ namespace UsuariosApi.Services
                     client.AuthenticationMechanisms.Remove("XOUATH2");
                     client.Authenticate
                     (
-                        _configuration.GetValue<string>("EmailString:From"),
+                        _configuration.GetValue<string>("EmailSettings:From"),
                         _configuration.GetValue<string>("EmailSettings:Password")
                     );
 
