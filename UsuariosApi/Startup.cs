@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using UsuariosApi.Data;
+using UsuariosApi.Models;
 using UsuariosApi.Services;
 
 namespace UsuariosApi
@@ -29,7 +30,7 @@ namespace UsuariosApi
                 );
 
             services
-                .AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+                .AddIdentity<CustomIdentityUser, IdentityRole<int>>(
                     opt => opt.SignIn.RequireConfirmedEmail = true
                 )
                 .AddEntityFrameworkStores<UserDbContext>()
