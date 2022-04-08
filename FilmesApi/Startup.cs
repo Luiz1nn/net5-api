@@ -1,3 +1,4 @@
+using FilmesApi.Authorization;
 using FilmesApi.Data;
 using FilmesApi.Services;
 using FilmesAPI.Data;
@@ -59,6 +60,14 @@ namespace FilmesAPI
                 };
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IdadeMinima", policy =>
+                {
+                    policy.Requirements.Add(new IdadeMinimaRequirement(18));
+                });
+            });
+
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -82,7 +91,7 @@ namespace FilmesAPI
             app.UseRouting();
 
             app.UseAuthentication();
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
