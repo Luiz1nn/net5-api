@@ -51,4 +51,20 @@ public class LoginService
 
         return Result.Fail("Falha ao solicitar redefinição");
     }
+
+    public Result ResetaSenhaUsuario(EfetuaResetRequest request)
+    {
+        IdentityUser<int> identityUser = _signInManager
+            .UserManager
+            .Users
+            .FirstOrDefault(u => u.NormalizedEmail == request.Email.ToUpper());
+
+        IdentityResult resultadoIdentity = _signInManager
+            .UserManager.ResetPasswordAsync(identityUser, request.Token, request.Password).Result;
+
+        if (resultadoIdentity.Succeeded) return Result.Ok()
+            .WithSuccess("Senha redefinida com sucesso!");
+
+        return Result.Fail("Houve um erro na operação");
+    }
 }
