@@ -1,5 +1,6 @@
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Linq;
 using UsuariosApi.Data.Requests;
 using UsuariosApi.Models;
@@ -33,4 +34,9 @@ public class LoginService
             }
             return Result.Fail("Login falhou");
         }
+
+    internal Result SolicitaResetSenhaUsuario(SolicitaResetRequest request)
+    {
+        throw new NotImplementedException();
     }
+}
