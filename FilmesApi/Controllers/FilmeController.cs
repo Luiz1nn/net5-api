@@ -6,6 +6,7 @@ using FilmesAPI.Data;
 using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
             ReadFilmeDto readDto = _filmeService.AdicionaFilme(filmeDto);
@@ -46,7 +48,7 @@ namespace FilmesAPI.Controllers
             ReadFilmeDto readDto = _filmeService.RecuperaFilmesPorId(id);
             if (readDto == null) return NotFound();
             return Ok(readDto);
-            
+
         }
 
         [HttpPut("{id}")]
