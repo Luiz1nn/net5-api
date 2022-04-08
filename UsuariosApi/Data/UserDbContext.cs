@@ -32,13 +32,18 @@ namespace UsuariosApi.Data
 
             PasswordHasher<IdentityUser<int>> hasher = new PasswordHasher<IdentityUser<int>>();
 
-            admin.PasswordHash = hasher.HashPassword(admin, _configuration.GetValue<string>("admin:password"));
+            admin.PasswordHash = hasher.HashPassword(admin, _configuration.GetValue<string>("admininfo:password"));
 
             builder.Entity<IdentityUser<int>>().HasData(admin);
 
             builder.Entity<IdentityRole<int>>().HasData
             (
                 new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
+            );
+
+            builder.Entity<IdentityRole<int>>().HasData
+            (
+                new IdentityRole<int> { Id = 99998, Name = "regular", NormalizedName = "REGULAR" }
             );
 
             builder.Entity<IdentityUserRole<int>>().HasData
