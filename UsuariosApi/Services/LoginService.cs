@@ -1,6 +1,5 @@
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 using UsuariosApi.Data.Requests;
 using UsuariosApi.Models;
@@ -36,10 +35,7 @@ public class LoginService
 
     public Result SolicitaResetSenhaUsuario(SolicitaResetRequest request)
     {
-        IdentityUser<int> identityUser = _signInManager
-            .UserManager
-            .Users
-            .FirstOrDefault(u => u.NormalizedEmail == request.Email.ToUpper());
+        IdentityUser<int> identityUser = RecuperaUsuarioPorEmail(request.Email);
 
         if (identityUser != null)
         {
@@ -54,10 +50,7 @@ public class LoginService
 
     public Result ResetaSenhaUsuario(EfetuaResetRequest request)
     {
-        IdentityUser<int> identityUser = _signInManager
-            .UserManager
-            .Users
-            .FirstOrDefault(u => u.NormalizedEmail == request.Email.ToUpper());
+        IdentityUser<int> identityUser = RecuperaUsuarioPorEmail(request.Email);
 
         IdentityResult resultadoIdentity = _signInManager
             .UserManager.ResetPasswordAsync(identityUser, request.Token, request.Password).Result;
@@ -66,5 +59,13 @@ public class LoginService
             .WithSuccess("Senha redefinida com sucesso!");
 
         return Result.Fail("Houve um erro na operação");
+    }
+
+    private IdentityUser<int> RecuperaUsuarioPorEmail(string email)
+    {
+        return _signInManager
+                .UserManager
+                .Users
+                .FirstOrDefault(u => u.NormalizedEmail == email.ToUpper());
     }
 }
