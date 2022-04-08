@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace UsuariosApi.Data
 {
     public class UserDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
+        private IConfiguration _configuration;
 
-        public UserDbContext(DbContextOptions<UserDbContext> opt) : base(opt)
+        public UserDbContext(DbContextOptions<UserDbContext> opt, IConfiguration configuration) : base(opt)
         {
-
+            _configuration = configuration;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,7 +32,7 @@ namespace UsuariosApi.Data
 
             PasswordHasher<IdentityUser<int>> hasher = new PasswordHasher<IdentityUser<int>>();
 
-            admin.PasswordHash = hasher.HashPassword(admin, "Admin123!");
+            admin.PasswordHash = hasher.HashPassword(admin, _configuration.GetValue<string>("admin:password"));
 
             builder.Entity<IdentityUser<int>>().HasData(admin);
 
