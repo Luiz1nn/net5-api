@@ -3,6 +3,7 @@ using FilmesApi.Data;
 using FilmesApi.Services;
 using FilmesAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -67,6 +68,8 @@ namespace FilmesAPI
                     policy.Requirements.Add(new IdadeMinimaRequirement(18));
                 });
             });
+
+            services.AddSingleton<IAuthorizationHandler, IdadeMinimaHandler>();
 
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
